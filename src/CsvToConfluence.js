@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Converts CSV to Markdown Table
+ * Converts CSV to Confluence table
  *
  * @param {string} csvContent - The string content of the CSV
  * @param {string} delimiter - The character(s) to use as the CSV column delimiter
@@ -35,19 +35,16 @@ function csvToMarkdown( csvContent, delimiter, hasHeader ) {
 	});
 
 	var headerOutput = "";
-	var seperatorOutput = "";
 
 	maxRowLen.forEach(function( len ) {
 		var spacer;
 		spacer = Array(len + 1 + 2).join("-");
-		seperatorOutput += "|" + spacer;
 
 		spacer = Array(len + 1 + 2).join(" ");
 		headerOutput += "|" + spacer;
 	});
 
-	headerOutput += "| \n";
-	seperatorOutput += "| \n";
+	headerOutput += "|| \n";
 
 	if( hasHeader ) {
 		headerOutput = "";
@@ -61,14 +58,14 @@ function csvToMarkdown( csvContent, delimiter, hasHeader ) {
 			var spacing = Array((len - row.length) + 1).join(" ");
 
 			if( hasHeader && initHeader ) {
-				headerOutput += "| " + row + spacing + " ";
+				headerOutput += "|| " + row + spacing + " ";
 			} else {
 				rowOutput += "| " + row + spacing + " ";
 			}
 		});
 
 		if( hasHeader && initHeader ) {
-			headerOutput += "| \n";
+			headerOutput += "|| \n";
 		} else {
 			rowOutput += "| \n";
 		}
@@ -76,7 +73,7 @@ function csvToMarkdown( csvContent, delimiter, hasHeader ) {
 		initHeader = false;
 	});
 
-	return headerOutput + seperatorOutput + rowOutput;
+	return headerOutput + rowOutput;
 }
 
 if(typeof module != "undefined") {
